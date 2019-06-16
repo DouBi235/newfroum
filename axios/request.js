@@ -36,7 +36,7 @@ service.interceptors.response.use(
                 message: response.data.msg
             })
         }
-        return Promise.resolve(response.data)
+        return Promise.resolve(response.data);
     },
     error => { //相应错误处理
         console.log('error');

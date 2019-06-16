@@ -45,7 +45,7 @@ export default {
       this.$store.commit('setToken',res.data.token);
     },
     async handlerCheckToken () {
-      let res = await this.api.checkRouter()
+      let res = await this.api.checkRouter();
     }
   },
   mounted () {

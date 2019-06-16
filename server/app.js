@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 //
 app.all('*',(req,res,next) => {
     let { url = '' } = req;
-    if(!url.includes('/register') && !url.includes('/login')) {
+    if(!url.includes('/register') && !url.includes('/login')&& !url.includes('/')) {
         if(!req.headers.x_access_token) {
             console.log(req.headers.x_access_token)
             res.send({code: 0, msg: '无效token'})
