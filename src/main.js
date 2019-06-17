@@ -6,6 +6,10 @@ import './registerServiceWorker'
 import ElementUI from 'element-ui';
 import Request from '../axios/api'
 import 'element-ui/lib/theme-chalk/index.css';
+
+// 富文本编辑器
+
+
 Vue.use(ElementUI);
 Vue.use(Request)
 

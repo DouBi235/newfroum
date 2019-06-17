@@ -1,37 +1,28 @@
 const Model = require('./model');
 const jwt = require('jsonwebtoken');
-function checkParams (value) {
-    let obj = null
-    for(let key in value) {
-        if(!value[key]) {
-            obj = {
-                code: 0,
-                msg: `无效参数 ${key}`
-            }
-            break;
-        }
-    }
-    return obj ? obj : false
-}
+import checkParams from '../checkParams';
 const controller = {
     register (req, res) {
-        let isNext = checkParams(req.body)
+        let isNext = checkParams(req.body);
         if(isNext) {
             res.send(isNext)
         } else {
-            Model.Register.find({account: req.body.account},(err,result) => {
-                if(result) res.send({code:0, msg: '该手机号码已被注册！'});
-                new Model.Register({
-                    account: req.body.account,
-                    password: req.body.password,
-                    name: req.body.name
-                }).save((err, result) => {
-                    if(err) {
-                        res.send({code:0,msg: '注册失败！'});
-                    } else {
-                        res.send({code: 1, msg: '注册成功',result})
-                    }
-                })
+            Model.Register.findOne({account: req.body.account},(err,result) => {
+                if(result) {
+                    res.send({code:0, msg: '该手机号码已被注册！'});
+                }else {
+                    new Model.Register({
+                        account: req.body.account,
+                        password: req.body.password,
+                        name: req.body.name
+                    }).save((err, result) => {
+                        if(err) {
+                            res.send({code:0,msg: '注册失败！'});
+                        } else {
+                            res.send({code: 1, msg: '注册成功',result})
+                        }
+                    })
+                }
             });
         }
 

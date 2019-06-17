@@ -14,4 +14,9 @@ router.post('/login', (req,res) => {
 router.post('/checkRouter', (req,res) => {
     res.send({code:1,msg: 'token未失效'})
 })
+
+/*用户发帖操作*/
+router.post('/post', (req,res) => {
+    Index.post(req,res);
+})
 module.exports = router;
