@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../index/model');
 const Schema = mongoose.Schema;
-const postClass = mongoose.Schema({
-    title: String,
-    desc: String,
-});
+const PostClass = require('./postClass');
 const post = mongoose.Schema({
     title: String,
     content: String,
@@ -12,18 +9,17 @@ const post = mongoose.Schema({
         type: Date,
         default: new Date().toLocaleString()
     },
-    postClassId: {
-        type: Schema.Types.ObjectId,
-        ref: Model.PostClass
-    },
-    userId: {
-        type: Schema.Types.ObjectId,
-        ref: User
-    }
+    // postClassId: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: PostClass
+    // },
+    // userId: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: User.Register
+    // }
 });
 
 const Model = {
-    PostClass: mongoose.model('postClasses',postClass),
     Post: mongoose.model('posts', post)
 }
 module.exports = Model;

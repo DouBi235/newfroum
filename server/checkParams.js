@@ -1,4 +1,4 @@
-export default function (value) {
+let checkParams = function (value) {
     let obj = null
     for(let key in value) {
         if(!value[key]) {
@@ -10,4 +10,5 @@ export default function (value) {
         }
     }
     return obj ? obj : false
-}
+};
+module.exports = checkParams

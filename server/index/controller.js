@@ -1,6 +1,6 @@
 const Model = require('./model');
 const jwt = require('jsonwebtoken');
-import checkParams from '../checkParams';
+const checkParams = require('../checkParams');
 const controller = {
     register (req, res) {
         let isNext = checkParams(req.body);

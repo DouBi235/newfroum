@@ -1,0 +1,7 @@
+const mongoose = require('mongoose');
+const postClass = mongoose.Schema({
+    title: String,
+    desc: String,
+});
+let model = mongoose.model('postClass', postClass)
+module.exports = model;

@@ -1,4 +1,5 @@
 const Model = require('./model');
+const checkParams = require('../checkParams'); //检查请求参数完整性
 const controllers = {
     post(req,res) {
         let isNext = checkParams(req.body);
@@ -7,12 +8,11 @@ const controllers = {
         }else {
             let params = req.body;
             console.log(params);
-            new Post.Post({
+            new Model.Post({
                 title: params['title'],
                 content: params['content'],
-                postDate: params['postDate'],
-                postClassId: params['postClassId'],
-                userId: params['userId']
+                // postClassId: 123456,
+                // userId: 123456,
             }).save((err,result) => {
                 if(err) {
                     res.send({code: 0, msg: '发帖失败！'})
@@ -22,4 +22,5 @@ const controllers = {
             })
         }
     }
-}
+};
+module.exports = controllers;
