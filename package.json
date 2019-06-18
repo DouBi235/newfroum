@@ -17,6 +17,7 @@
     "core-js": "^2.6.5",
     "element-ui": "^2.8.2",
     "express": "^4.16.4",
+    "express-session": "^1.16.2",
     "js-md5": "^0.7.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.7",

@@ -11,4 +11,4 @@ let checkParams = function (value) {
     }
     return obj ? obj : false
 };
-module.exports = checkParams
+module.exports = checkParams;

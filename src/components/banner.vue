@@ -4,8 +4,8 @@
       <router-link to="/register" class="bannerText">前端贴吧论坛</router-link>
       <div class="right">
         <el-button type="text" @click="postBefore">发布新贴</el-button>
-        <el-button type="text" v-if="!userName" @click="isShowLogin = true">登录</el-button>
-        <el-button type="text" v-else>{{userName}}</el-button>
+        <el-button type="text" v-if="!$store.getters.isLogin" @click="isShowLogin = true">登录</el-button>
+        <el-button type="text" v-else>{{$store.getters.currentUser}}</el-button>
       </div>
     </div>
 
@@ -60,21 +60,24 @@
         >
             <el-form-item label="帖子分类:">
                 <el-select v-model="classValue" placeHolder="请选择帖子分类" style="width:100%;">
-                    <option
+                    <el-option
                         v-for="item in options"
-                        value=""
-                    ></option>
+                        :label="item.title"
+                        :value="item._id"
+                    ></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="帖子标题:">
                 <el-input v-model="postTitle"></el-input>
             </el-form-item>
             <el-form-item label="帖子详情:">
+                <div style="display:none;">{{value}}</div>
                 <Editor @catchData="getFwbContent"/>
             </el-form-item>
         </el-form>
         <div style="text-align:center;">
             <el-button type="primary" @click="post">发帖</el-button>
+            <el-button type="primary" @click="postClass">Temp Post</el-button>
         </div>
       </el-dialog>
     <!-- end port dialog -->
@@ -129,6 +132,8 @@ export default {
           this.api.login(params).then((res) => {
             if(!res.code) return;
             this.$message.success('登录成功');
+            // this.$store.commit('setToken',res.data.token)
+            this.setSession(res.data);//存储storage
             this.userName = res.data.result.name;
             this.isShowLogin = false;
           });
@@ -173,26 +178,51 @@ export default {
         this.value = value;
     },
 
-    async postBefore () {
-        // this.postLoading = true;
-        this.isShowPortDialog = true;
+    async postBefore () { //发布帖子之前获得一些数据
+        if(!this.$store.getters.isLogin) {
+            this.$message('您还未登陆请先登录！');
+            return
+        }
+        this.postLoading = true;
+        let res = await this.api.getPostClass();
+        this.options = res.data.result;
+        this.postLoading = false;
+        this.isShowPortDialog = true
     },
-    async post () {
+    async post () { //发布帖子功能
         let params = {
             title: this.postTitle,
             content: this.value,
-            postClassId: '123456',
-            userId: '789654'
-        }
+            postClassId: this.classValue
+        };
         let res = await this.api.post(params);
-        console.log(res);
+        this.$message({
+            type: res.code ? 'success' : 'error',
+            message: res.msg
+        });
+        this.isShowPortDialog = false;
+    },
+    setSession(value) { //设置sessionStorage 和vuex
+        if(value) {
+            window.sessionStorage.setItem('token',value.token);
+            window.sessionStorage.setItem('userInfo',JSON.stringify(value));
+            this.$store.dispatch('setUser',value);
+        }
+    },
+    async postClass () {
+        let params = {
+            title: 'Css 3',
+            desc: 'transform'
+        };
+        let res = await this.api.postClass(params);
+        console.log(res)
     }
   },
   computed: {
 
   },
   mounted () {
-    console.log();
+      this.setSession(JSON.parse(window.sessionStorage.getItem('userInfo')) || '');
   },
   created() {
 

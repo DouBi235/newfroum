@@ -9,17 +9,32 @@ const post = mongoose.Schema({
         type: Date,
         default: new Date().toLocaleString()
     },
-    // postClassId: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: PostClass
-    // },
-    // userId: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: User.Register
-    // }
+    isOut:{
+        type: Boolean,
+        default: false
+    },
+    isVia: {
+        type: Number,
+        default: 0 //0、未通过，1、通过，2、未通过
+    },
+    praise: {
+        type: Number, //点赞数
+        default: 0
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: User.Register
+    },
+    postClassId: {
+        type: Schema.Types.ObjectId,
+        ref: PostClass
+    }
+},{
+    versionKey: false
 });
 
 const Model = {
-    Post: mongoose.model('posts', post)
+    Post: mongoose.model('posts', post),
+    PostClass
 }
 module.exports = Model;

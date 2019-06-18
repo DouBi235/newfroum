@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 import ElementUi from 'element-ui';
-import store from '../src/store';
+import store from '../src/vuex/store';
 
 const service = axios.create({
     baseURL: '/api',//api的base_url,
@@ -15,7 +15,8 @@ service.interceptors.request.use( config => {
         ?  config.data = qs.stringify({...config.data})
         : config.params = {...config.params};
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    config.headers.x_access_token = store.getters.getToken || '';
+    // config.headers.x_access_token = store.getters.getToken || '';
+    config.headers.x_access_token = store.getters.token || '';
     return config;
 },error => { //请求错无处理
     ElementUi.Message({
@@ -29,7 +30,7 @@ service.interceptors.request.use( config => {
 /****** response拦截器==> 对相应做处理 ******/
 service.interceptors.response.use(
     response => { //成功请求道数据
-        console.log('数据请求成功')
+        console.log('数据请求成功');
         if(response.data.code === 0) {
             ElementUi.Message({
                 type: 'error',
@@ -40,13 +41,14 @@ service.interceptors.response.use(
     },
     error => { //相应错误处理
         console.log('error');
+        console.log(error)
         console.log(JSON.parse(JSON.stringify(error)));
-        let text = JSON.parse(JSON.stringify(error)).response.status === 404
-            ? '404'
-            : '网络异常，请重试';
+        // let text = JSON.parse(JSON.stringify(error)).response.code === 0
+        //     ? '404'
+        //     : '网络异常，请重试';
         ElementUi.Message({
             type: 'error',
-            message: text
+            message: '123'
         });
         return Promise.reject(error);
     }
