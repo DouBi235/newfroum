@@ -1,4 +1,5 @@
 const Model = require('./model'); //帖子模型
+const ObjectID = require('mongodb').ObjectId;
 const checkParams = require('../checkParams'); //检查请求参数完整性
 const session = require('express-session');
 
@@ -44,6 +45,16 @@ const controllers = {
                 res.send({code: 0, msg: '获取帖子分类失败！'});
             }else {
                 res.send({code: 1,msg: '获取成功',data: {result}});
+            }
+        })
+    },
+    getAllPost(req,res) {      
+        Model.Post.find({postClassId:ObjectID(req.body.postClass)},(err,result) => {
+            console.log(result)
+            if(err) {
+                res.send({code: 0, msg: '获取所选类帖子失败'});
+            }else {
+                res.send({code: 1, msg: '获取成功',data: {result}})
             }
         })
     }

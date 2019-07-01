@@ -28,4 +28,9 @@ router.post('/postClass', (req,res) => {
 router.get('/getPostClass', (req,res) => {
     Post.getPostClass(req,res);
 })
+
+// 获取所选分类帖子
+router.get('/getAllPost', (req,res) => {
+    Post.getAllPost(req,res);
+})
 module.exports = router;

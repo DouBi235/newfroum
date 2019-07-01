@@ -1,24 +1,16 @@
 <template>
   <div class="home">
-    <div class="login">
-      <el-form label-position="left" label-width="50px" v-model="from">
-        <el-form-item label="账号" >
-          <el-input type="text" v-model="from.account"></el-input>
-        </el-form-item>
-        <el-form-item label="密码">
-          <el-input type="text" v-model="from.password"></el-input>
-        </el-form-item>
-      </el-form>
-      <el-button type="primary" @click="handleLogin">Register</el-button>
-      <el-button type="warning" @click="handleCheck">Login</el-button>
-      <el-button type="danger" @click="handlerCheckToken">检查to</el-button>
-    </div>
+    <bodyS />
   </div>
 </template>
 
 <script>
+import bodyS from '@/views/bodys.vue'
 export default {
   name: 'home',
+  components: {
+    bodyS
+  },
   data () {
     return {
       from: {

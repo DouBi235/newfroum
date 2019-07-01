@@ -18,7 +18,7 @@ app.use(session({
 app.all('*',(req,res,next) => {
     console.log('Hello全部');
     let { url = '' } = req;
-    if(!url.includes('/register') && !url.includes('/login')) {
+    if(!url.includes('/register') && !url.includes('/login') && !url.includes('/getAllPost')) {
         if(!req.headers.x_access_token) {
             res.send({code: 0, msg: '无效token'})
         } else {
